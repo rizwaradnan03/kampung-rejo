@@ -2,6 +2,6 @@
 
 class Display {
     public:
-        unsigned int width = 1080;
-        unsigned int height = 780;
+        static unsigned int width;
+        static unsigned int height;
 };
