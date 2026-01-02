@@ -1,10 +1,15 @@
 #include <oth/engine/sound.hpp>
+#include <iostream>
+#include <string>
 
-// Sound::Sound(sf::SoundBuffer buffer){
-//     this->buffer = buffer;
-// }
+Sound::Sound(const std::string& path): buffer(), sound(buffer){
+    if(!buffer.loadFromFile(path)){
+        std::cerr << "Failed load sound: " << path << std::endl;
+    }
 
-// void Sound::Play(){
-//     sf::Sound sound(this->buffer);
-//     sound.play();
-// }
+    sound.setBuffer(buffer);
+}
+
+void Sound::Play(){
+    sound.play();
+}

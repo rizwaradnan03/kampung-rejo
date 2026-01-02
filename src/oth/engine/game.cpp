@@ -10,15 +10,18 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <oth/engine/sound.hpp>
 
 void Game::Run(sf::RenderWindow *window){
+    std::vector<Tilemap*> tilemaps;
     Player py(sf::Color::Green, 50, 50);
     Screen scr;
     Config cf;
 
     Tilemap tm(1);
 
-    std::vector<Tilemap*> tilemaps;
+    // Sound vineBoom("assets/sound/vine-boom.mp3");
+    // vineBoom.Play();
 
     int yVal = 0, xVal = 0;
     while (yVal < 21){
