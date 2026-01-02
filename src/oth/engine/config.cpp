@@ -1,4 +1,4 @@
-#include <oth/config.hpp>
+#include <oth/engine/config.hpp>
 
 float Config::getTime(){
     return time;

@@ -1,4 +1,4 @@
-#include <oth/player.hpp>
+#include <oth/engine/player.hpp>
 #include <algorithm>
 #include <utility>
 #include <SFML/Graphics.hpp>

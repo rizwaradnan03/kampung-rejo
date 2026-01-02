@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include <oth/render.hpp>
+#include <oth/engine/render.hpp>
 #include <oth/logic/physics.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
-#include <oth/input.hpp>
+#include <oth/engine/input.hpp>
 
 class Player: public Render, public Physics, public InputHandling {
 public:

@@ -1,4 +1,4 @@
-#include <oth/input.hpp>
+#include <oth/engine/input.hpp>
 #include <iostream>
 
 void InputHandling::Handle(const sf::Event& event){

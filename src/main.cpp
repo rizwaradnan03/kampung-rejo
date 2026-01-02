@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
-#include <oth/window/display.hpp>
-#include <oth/input.hpp>
-#include <oth/config.hpp>
-#include <oth/player.hpp>
-#include <oth/class/screen.hpp>
-#include <oth/class/block/rectangle_block.hpp>
+#include <oth/engine/display.hpp>
+#include <oth/engine/input.hpp>
+#include <oth/engine/config.hpp>
+#include <oth/engine/player.hpp>
+#include <oth/node/screen.hpp>
+#include <oth/node/block/rectangle_block.hpp>
 #include <iostream>
 
 int main(){

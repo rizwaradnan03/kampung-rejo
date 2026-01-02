@@ -3,7 +3,7 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
-#include <oth/render.hpp>
+#include <oth/engine/render.hpp>
 #include <oth/logic/physics.hpp>
 
 class Block : public Render, public Physics {

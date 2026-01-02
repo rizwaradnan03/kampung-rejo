@@ -1,7 +1,7 @@
 #ifndef SCREEN_HPP
 #define SCREEN_HPP
 
-#include <oth/render.hpp>
+#include <oth/engine/render.hpp>
 #include <vector>
 
 class Screen {
