@@ -3,7 +3,6 @@ project(kampung_rejo)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# === PATH SFML SESUAI STRUKTUR KAMU ===
 set(SFML_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/include)
 set(SFML_LIB_DIR ${CMAKE_SOURCE_DIR}/external/lib)
 

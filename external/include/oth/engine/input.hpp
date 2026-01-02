@@ -4,5 +4,5 @@
 
 class InputHandling {
     public:
-        virtual void Handle(const sf::Event& event) = 0;
+        virtual void InputHandle(float dt, const sf::Event& event) = 0;
 };

@@ -13,7 +13,8 @@
 class Player: public Render, public Physics, public InputHandling {
 public:
     Player(const sf::Color& color, float width, float height);
-    
+    void Process(float dt, const sf::Event& event);
+
     void setName(const std::string& name);
     std::string getName() const;
 
@@ -24,7 +25,7 @@ public:
     void clearInventory();
 
     void shapeRender(sf::RenderWindow* window) override;
-    void Handle(const sf::Event& event) override;
+    void InputHandle(float dt, const sf::Event& event) override;
 
     void HandleCollision();
 
