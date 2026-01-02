@@ -2,13 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include <oth/logic/generator.hpp>
 
-RectangleBlock::RectangleBlock(const sf::Color& color, float width, float height){
+RectangleBlock::RectangleBlock(const sf::Color& color, float width, float height, int xPos, int yPos){
     this->id = Generator::generateId("rectangle_block");
 
     this->shape.setSize(sf::Vector2f(width, height));
     this->shape.setFillColor(color);
-
     this->shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
+    this->shape.setPosition(sf::Vector2f(xPos, yPos));
 }
 
 void RectangleBlock::shapeRender(sf::RenderWindow* window){

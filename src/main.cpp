@@ -14,28 +14,32 @@ int main()
     Player py(sf::Color::Green, 150, 100);
     Screen scr;
     Config cf;
-    RectangleBlock bl(sf::Color::Red, 40, 40);
 
     Tilemap tm(1);
 
     int yVal = 0, xVal = 0;
-    while (yVal < 20)
+    while (yVal < 21)
     {
-        while (xVal < 27){
-            tm.setTile(yVal, xVal, &bl);
+        while (xVal < 28)
+        {
+            RectangleBlock *bl = new RectangleBlock(
+                sf::Color::Blue,
+                40,
+                40,
+                xVal * 40,
+                yVal * 40);
+
+            tm.setTile(yVal, xVal, bl);
             xVal++;
         }
-
         xVal = 0;
         yVal++;
     }
 
     while (window->isOpen())
     {
-        cf.setTime(0.02);
-
-        // window->clear(sf::Color::Blue);
-
+        // cf.setTime(0.02);
+        window->clear();
         tm.renderTiles(window);
 
         while (const std::optional event = window->pollEvent())
@@ -46,11 +50,11 @@ int main()
             }
             else
             {
-                // py.Handle(*event);
+                py.Handle(*event);
             }
         }
 
-        // py.shapeRender(window);
+        py.shapeRender(window);
         window->display();
     }
     return 0;
