@@ -5,7 +5,6 @@
 #include <oth/player.hpp>
 #include <oth/class/screen.hpp>
 #include <oth/class/block.hpp>
-#include <iostream>
 
 int main(){
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
@@ -23,14 +22,12 @@ int main(){
             if(event->is<sf::Event::Closed>()){
                 window->close();
             }else{
-                // player event
                 py.Handle(*event);
             }
         }
 
         std::vector<Render*> obj = scr.getAllObject();
         for(int i = 0;i < scr.getAllObject().size();i++){
-            std::cout << "Jawa" << std::endl;
             obj[i]->shapeRender(window);
         }
 

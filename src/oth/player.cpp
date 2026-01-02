@@ -64,19 +64,25 @@ void Player::shapeRender(sf::RenderWindow* window){
 
 void Player::Handle(const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
-        auto key = event.getIf<sf::Event::KeyPressed>()->code;
+        auto keyB = event.getIf<sf::Event::KeyPressed>()->code;
         sf::Vector2f currentPost = shape.getPosition();
 
-        if(key == sf::Keyboard::Key::A){
+        if(keyB == sf::Keyboard::Key::A){
             currentPost.x -= speed;
-        }else if(key == sf::Keyboard::Key::D){
+        }else if(keyB == sf::Keyboard::Key::D){
             currentPost.x += speed;
-        }else if(key == sf::Keyboard::Key::W){
+        }else if(keyB == sf::Keyboard::Key::W){
             currentPost.y -= speed;
-        }else if(key == sf::Keyboard::Key::S){
+        }else if(keyB == sf::Keyboard::Key::S){
             currentPost.y += speed;
         }
 
+        
+
         this->shape.setPosition(currentPost);
+    }
+
+    if(event.is<sf::Event::MouseButtonPressed>()){
+        std::cout << "Mouse Button Pressed" << std::endl;
     }
 }
