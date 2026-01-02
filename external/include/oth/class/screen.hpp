@@ -6,10 +6,10 @@
 
 class Screen {
     public:
-        std::vector<Render> getAllObject();
+        std::vector<Render*> getAllObject();
     
     private:
-        std::vector<Render> obj;
+        std::vector<Render*> obj;
 };
 
 #endif

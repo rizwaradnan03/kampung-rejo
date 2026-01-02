@@ -6,10 +6,10 @@
 using namespace std;
 
 Player::Player(const sf::Color& color, float width, float height){
-    shape.setSize(sf::Vector2f(width, height));
-    shape.setFillColor(color);
+    this->shape.setSize(sf::Vector2f(width, height));
+    this->shape.setFillColor(color);
 
-    shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
+    this->shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
 }
 
 void Player::setName(const string& name) {
@@ -54,5 +54,18 @@ void Player::clearInventory() {
     inventory.clear();
 }
 
-void Player::shapeRender(){
+void Player::shapeRender(sf::RenderWindow* window){
+    window->draw(this->shape);
+}
+
+void Player::Run(sf::Event* event){
+    sf::Event& ev = *event;
+
+    if(ev.is<sf::Event::KeyPressed>()){
+        auto key = ev.getIf<sf::Event::KeyPressed>()->code;
+
+        if(key == sf::Keyboard::Key::A){
+            std::cout << "Clicked A Button" << std::endl;
+        }
+    }
 }
