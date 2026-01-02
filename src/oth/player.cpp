@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <utility>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 using namespace std;
 
@@ -58,11 +59,9 @@ void Player::shapeRender(sf::RenderWindow* window){
     window->draw(this->shape);
 }
 
-void Player::Run(sf::Event* event){
-    sf::Event& ev = *event;
-
-    if(ev.is<sf::Event::KeyPressed>()){
-        auto key = ev.getIf<sf::Event::KeyPressed>()->code;
+void Player::Handle(const sf::Event& event){
+    if(event.is<sf::Event::KeyPressed>()){
+        auto key = event.getIf<sf::Event::KeyPressed>()->code;
 
         if(key == sf::Keyboard::Key::A){
             std::cout << "Clicked A Button" << std::endl;

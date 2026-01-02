@@ -4,5 +4,5 @@
 
 class InputHandling {
     public:
-        static void Run(const sf::Event& event);
+        virtual void Handle(const sf::Event& event) = 0;
 };

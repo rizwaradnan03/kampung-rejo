@@ -7,8 +7,10 @@
 #include <oth/render.hpp>
 #include <oth/logic/physics.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Event.hpp>
+#include <oth/input.hpp>
 
-class Player: public Render, public Physics {
+class Player: public Render, public Physics, public InputHandling {
 public:
     Player(const sf::Color& color, float width, float height);
     
@@ -21,7 +23,8 @@ public:
     void deleteInventory(int id);
     void clearInventory();
 
-    void shapeRender() override;
+    void shapeRender(sf::RenderWindow* window) override;
+    void Handle(const sf::Event& event) override;
 
 private:
     std::string name;
