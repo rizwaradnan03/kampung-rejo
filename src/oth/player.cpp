@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int speed = 10;
+int speed = 3;
 
 Player::Player(const sf::Color& color, float width, float height){
     this->shape.setSize(sf::Vector2f(width, height));

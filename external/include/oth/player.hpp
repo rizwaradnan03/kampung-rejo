@@ -26,7 +26,10 @@ public:
     void shapeRender(sf::RenderWindow* window) override;
     void Handle(const sf::Event& event) override;
 
+    void HandleCollision();
+
 private:
+    std::string id;
     std::string name;
     std::vector<std::pair<int,int>> inventory;
     sf::RectangleShape shape;

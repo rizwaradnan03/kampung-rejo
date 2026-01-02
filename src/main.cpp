@@ -5,6 +5,7 @@
 #include <oth/player.hpp>
 #include <oth/class/screen.hpp>
 #include <oth/class/block/rectangle_block.hpp>
+#include <iostream>
 
 int main(){
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
@@ -16,7 +17,7 @@ int main(){
     scr.setObject(&bl);
     while(window->isOpen()){
         window->clear(sf::Color::Blue);
-        cf.setTime(0.1);
+        cf.setTime(0.02);
 
         while(const std::optional event = window->pollEvent()){
             if(event->is<sf::Event::Closed>()){
@@ -30,6 +31,8 @@ int main(){
         for(int i = 0;i < scr.getAllObject().size();i++){
             obj[i]->shapeRender(window);
         }
+
+        // std::cout << "Timo : " << cf.getTime() << std::endl;
 
         py.shapeRender(window);
         window->display();

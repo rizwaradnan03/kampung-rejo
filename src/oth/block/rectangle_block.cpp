@@ -1,7 +1,10 @@
 #include <oth/class/block/rectangle_block.hpp>
 #include <SFML/Graphics.hpp>
+#include <oth/logic/generator.hpp>
 
 RectangleBlock::RectangleBlock(const sf::Color& color, float width, float height){
+    this->id = Generator::generateId();
+
     this->shape.setSize(sf::Vector2f(width, height));
     this->shape.setFillColor(color);
 
