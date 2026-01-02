@@ -8,12 +8,8 @@
 
 class Block : public Render, public Physics {
     public:
-        Block(const sf::Color& color, float width, float height);
-        void shapeRender(sf::RenderWindow* window) override;
-
-    private:
-        std::string id;
-        sf::RectangleShape shape;
+        // Block(const sf::Color& color, float width, float height);
+        virtual void shapeRender(sf::RenderWindow* window) override;
 };
 
 #endif

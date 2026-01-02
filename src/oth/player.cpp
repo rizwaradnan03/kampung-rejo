@@ -77,12 +77,11 @@ void Player::Handle(const sf::Event& event){
             currentPost.y += speed;
         }
 
-        
-
         this->shape.setPosition(currentPost);
     }
 
     if(event.is<sf::Event::MouseButtonPressed>()){
         std::cout << "Mouse Button Pressed" << std::endl;
     }
+
 }

@@ -4,14 +4,14 @@
 #include <oth/config.hpp>
 #include <oth/player.hpp>
 #include <oth/class/screen.hpp>
-#include <oth/class/block.hpp>
+#include <oth/class/block/rectangle_block.hpp>
 
 int main(){
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
     Player py(sf::Color::Green, 150, 100);
     Screen scr;
     Config cf;
-    Block bl(sf::Color::Red, 50, 50);
+    RectangleBlock bl(sf::Color::Red, 50, 50);
 
     scr.setObject(&bl);
     while(window->isOpen()){
