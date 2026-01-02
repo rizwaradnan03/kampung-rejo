@@ -5,7 +5,6 @@
 int main(){
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
     
-
     while(window->isOpen()){
         while(const std::optional event = window->pollEvent()){
             if(event->is<sf::Event::Closed>()){

@@ -1,8 +1,16 @@
 #include <oth/player.hpp>
 #include <algorithm>
 #include <utility>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
+
+void Player::Init(const sf::Color& color, float width, float height){
+    shape.setSize(sf::Vector2f(width, height));
+    shape.setFillColor(color);
+
+    shape.setOrigin(width / 2.f, height / 2.f);
+}
 
 void Player::setName(const string& name) {
     this->name = name;
@@ -44,4 +52,7 @@ void Player::deleteInventory(int id) {
 
 void Player::clearInventory() {
     inventory.clear();
+}
+
+void Player::Render(){
 }

@@ -3,7 +3,7 @@
 
 class Render {
 public:
-	void Run();
+	void Render();
 };
 
 #endif
