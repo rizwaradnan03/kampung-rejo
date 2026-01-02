@@ -5,38 +5,53 @@
 #include <oth/engine/player.hpp>
 #include <oth/node/screen.hpp>
 #include <oth/node/block/rectangle_block.hpp>
+#include <oth/node/tilemap.hpp>
 #include <iostream>
 
-int main(){
-    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
+int main()
+{
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode({Display::width, Display::height}), "Kampung Rejo");
     Player py(sf::Color::Green, 150, 100);
     Screen scr;
     Config cf;
-    RectangleBlock bl(sf::Color::Red, 50, 50);
+    RectangleBlock bl(sf::Color::Red, 40, 40);
 
-    scr.setObject(&bl);
-    while(window->isOpen()){
-        window->clear(sf::Color::Blue);
+    Tilemap tm(1);
+
+    int yVal = 0, xVal = 0;
+    while (yVal < 20)
+    {
+        while (xVal < 27){
+            tm.setTile(yVal, xVal, &bl);
+            xVal++;
+        }
+
+        xVal = 0;
+        yVal++;
+    }
+
+    while (window->isOpen())
+    {
         cf.setTime(0.02);
 
-        while(const std::optional event = window->pollEvent()){
-            if(event->is<sf::Event::Closed>()){
+        // window->clear(sf::Color::Blue);
+
+        tm.renderTiles(window);
+
+        while (const std::optional event = window->pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+            {
                 window->close();
-            }else{
-                py.Handle(*event);
+            }
+            else
+            {
+                // py.Handle(*event);
             }
         }
 
-        std::vector<Render*> obj = scr.getAllObject();
-        for(int i = 0;i < scr.getAllObject().size();i++){
-            obj[i]->shapeRender(window);
-        }
-
-        // std::cout << "Timo : " << cf.getTime() << std::endl;
-
-        py.shapeRender(window);
+        // py.shapeRender(window);
         window->display();
     }
-
     return 0;
 }

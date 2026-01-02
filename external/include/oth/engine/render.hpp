@@ -7,7 +7,6 @@
 class Render {
 	public:
 		virtual void shapeRender(sf::RenderWindow* window) = 0;
-		// virtual ~Render(){}
 	
 	private:
 		std::string id;

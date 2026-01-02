@@ -6,15 +6,15 @@
 #include <oth/engine/display.hpp>
 #include <SFML/Graphics.hpp>
 
-class Tilemap: public Render {
+class Tilemap {
     public:
         Tilemap(int priority);
-        void shapeRender(sf::RenderWindow* window) override;
-
+        void renderTiles(sf::RenderWindow* window);
+        void setTile(int yIndex, int xIndex, Render* tile);
         int getPriority();
 
     private:
-        Render* tiles[780 / 40][1080 / 40];
+        Render* tiles[800 / 40][1080 / 40];
         int priority;
 };
 
