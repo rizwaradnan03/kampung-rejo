@@ -5,11 +5,11 @@
 
 using namespace std;
 
-void Player::Init(const sf::Color& color, float width, float height){
+Player::Player(const sf::Color& color, float width, float height){
     shape.setSize(sf::Vector2f(width, height));
     shape.setFillColor(color);
 
-    shape.setOrigin(width / 2.f, height / 2.f);
+    shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
 }
 
 void Player::setName(const string& name) {
@@ -17,7 +17,7 @@ void Player::setName(const string& name) {
 }
 
 string Player::getName() const {
-    return name;
+    return this->name;
 }
 
 vector<pair<int,int>> Player::getInventory() const {
@@ -54,5 +54,5 @@ void Player::clearInventory() {
     inventory.clear();
 }
 
-void Player::Render(){
+void Player::shapeRender(){
 }

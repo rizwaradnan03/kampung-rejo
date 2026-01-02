@@ -1,3 +1,3 @@
 #include <oth/render.hpp>
 
-void Render::Render(){};
+void Render::shapeRender(){};

@@ -3,7 +3,7 @@
 
 class Physics {
     public:
-        static bool isCollide(float xm, float ym, float hm, float xe, float ye, float he);
+        static bool isCollide(float xm, float ym, float wm, float hm, float xe, float ye, float we, float he);
 };
 
 #endif

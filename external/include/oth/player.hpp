@@ -5,11 +5,13 @@
 #include <vector>
 #include <utility>
 #include <oth/render.hpp>
-#include <oth/
+#include <oth/logic/physics.hpp>
+#include <SFML/Graphics.hpp>
 
 class Player: public Render, public Physics {
 public:
-    void Init(const sf::Color& color, float width, float height);
+    Player(const sf::Color& color, float width, float height);
+    
     void setName(const std::string& name);
     std::string getName() const;
 
@@ -19,14 +21,12 @@ public:
     void deleteInventory(int id);
     void clearInventory();
 
-    void Render();
+    void shapeRender() override;
 
 private:
     std::string name;
     std::vector<std::pair<int,int>> inventory;
     sf::RectangleShape shape;
-    std::float width;
-    std::float height;
 };
 
 #endif
