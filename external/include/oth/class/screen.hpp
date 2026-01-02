@@ -7,7 +7,7 @@
 class Screen {
     public:
         std::vector<Render*> getAllObject();
-    
+        void setObject(Render* object);
     private:
         std::vector<Render*> obj;
 };

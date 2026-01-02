@@ -6,11 +6,14 @@
 
 using namespace std;
 
+int speed = 10;
+
 Player::Player(const sf::Color& color, float width, float height){
     this->shape.setSize(sf::Vector2f(width, height));
     this->shape.setFillColor(color);
 
     this->shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
+    this->shape.setPosition({0.f, 0.f});
 }
 
 void Player::setName(const string& name) {
@@ -62,9 +65,18 @@ void Player::shapeRender(sf::RenderWindow* window){
 void Player::Handle(const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
         auto key = event.getIf<sf::Event::KeyPressed>()->code;
+        sf::Vector2f currentPost = shape.getPosition();
 
         if(key == sf::Keyboard::Key::A){
-            std::cout << "Clicked A Button" << std::endl;
+            currentPost.x -= speed;
+        }else if(key == sf::Keyboard::Key::D){
+            currentPost.x += speed;
+        }else if(key == sf::Keyboard::Key::W){
+            currentPost.y -= speed;
+        }else if(key == sf::Keyboard::Key::S){
+            currentPost.y += speed;
         }
+
+        this->shape.setPosition(currentPost);
     }
 }
