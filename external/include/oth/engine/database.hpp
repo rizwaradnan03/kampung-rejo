@@ -14,7 +14,6 @@ class Database {
         bool executeQuery(const std::string& sql);
         sqlite3* getDB();
 
-        // all query needed
         PlayerInterface getPlayer();
         std::vector<TilemapInterface> getTilemap();
         std::vector<TileInterface> getTile();

@@ -3,15 +3,18 @@
 #include <utility>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <oth/engine/database.hpp>
 
 int SPEED = 2000;
 
-Player::Player(const sf::Color& color, float width, float height){
+Player::Player(const sf::Color& color, float width, float height, Database *database){
     this->shape.setSize(sf::Vector2f(width, height));
     this->shape.setFillColor(color);
 
     this->shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
     this->shape.setPosition({0.f, 0.f});
+
+    this->database = database;
 }
 
 void Player::setName(const std::string& name) {
@@ -79,7 +82,9 @@ void Player::InputHandle(float dt, const sf::Event& event){
     }
 
     if(event.is<sf::Event::MouseButtonPressed>()){
-        std::cout << "Mouse Button Pressed" << std::endl;
+        std::vector<TilemapInterface> tilemaps = this->database->getTilemap();
+        std::cout << "Tilemaps Size : " << tilemaps.size() << std::endl;
+        // std::cout << "Mouse Button Pressed" << std::endl;
     }
 
 }

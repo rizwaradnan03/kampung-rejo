@@ -2,10 +2,14 @@
 #include <oth/engine/database.hpp>
 #include <oth/node/tilemap.hpp>
 #include <string>
+#include <vector>
+#include <oth/engine/color.hpp>
+#include <iostream>
 
 Database *Initialization::InitDatabase()
 {
     Database *db = new Database("game.db");
+    Color* c;
     int cl = 3;
 
     std::string ic[cl] = {
@@ -47,25 +51,30 @@ Database *Initialization::InitDatabase()
         INSERT INTO tilemaps(priority) VALUES(1);
     )"};
 
-    return db;
-}
-
-Tilemap *Initialization::InitTileMaps(){
-    Tilemap *tm = new Tilemap(1);
+    for(int i = 0;i < 1;i++){
+        db->executeQuery(ic2[i].c_str());
+    }
 
     int yVal = 0, xVal = 0;
     while (yVal < 21)
     {
         while (xVal < 28)
         {
-            RectangleBlock *bl = new RectangleBlock(
-                sf::Color::Blue,
-                40,
-                40,
-                xVal * 40,
-                yVal * 40);
 
-            tm->setTile(yVal, xVal, bl);
+            std::string colorHex = c->colorToHex(sf::Color::Blue);
+
+            std::stringstream sql;
+            sql << "INSERT INTO tiles (color, width, height, x_position, y_position) VALUES ('"
+            << colorHex << "', "
+            << 40 << ", "
+            << 40 << ", "
+            << 40 * xVal << ", "
+            << 40 * yVal << ");";
+
+            std::string query = sql.str();
+            std::cout << "Query Se : " << query << std::endl;
+            db->executeQuery(query.c_str());
+
             xVal++;
         }
 
@@ -73,5 +82,42 @@ Tilemap *Initialization::InitTileMaps(){
         yVal++;
     }
 
+    // std::cout << "Berandalan" << std::endl;
+
+    return db;
+}
+
+Tilemap *Initialization::InitTileMaps(Database *database){
+    Tilemap *tm = new Tilemap(1);
+    Color* c;
+
+    int yVal = 0, xVal = 0;
+
+    std::vector<TileInterface> tiles = database->getTile();
+    std::cout << "Jumlah Tilese : " << tiles.size() << std::endl;
+
+    for(int i = 0;i < tiles.size();i++){
+        TileInterface t = tiles[i];
+
+        RectangleBlock* bl = new RectangleBlock(
+            c->hexToColor(t.color),
+            t.width,
+            t.height,
+            t.x_position,
+            t.y_position
+        );
+
+        tm->setTile(t.x_position == 0 ? 0 : t.x_position / 40, t.y_position == 0 ? 0 : t.y_position / 40, bl);
+    }
+
     return tm;
+}
+
+std::vector<Sound*> Initialization::InitSounds(){
+    std::vector<Sound*> sounds;
+
+    Sound *vine_boom = new Sound("assets/sound/vine-boom.mp3", "vine-boom");
+    sounds.push_back(vine_boom);
+
+    return sounds;
 }

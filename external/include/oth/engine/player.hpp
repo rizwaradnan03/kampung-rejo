@@ -9,10 +9,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include <oth/engine/input.hpp>
+#include <oth/engine/database.hpp>
 
 class Player: public Render, public Physics, public InputHandling {
 public:
-    Player(const sf::Color& color, float width, float height);
+    Player(const sf::Color& color, float width, float height, Database *database);
     void Process(float dt, const sf::Event& event);
 
     void setName(const std::string& name);
@@ -34,6 +35,7 @@ private:
     std::string name;
     std::vector<std::pair<int,int>> inventory;
     sf::RectangleShape shape;
+    Database *database;
 };
 
 #endif

@@ -6,10 +6,12 @@
 
 class Sound {
     public:
-        Sound(const std::string& path);
+        Sound(const std::string& path, std::string name);
         void Play();
+        std::string getName();
         
     private:
+        std::string name;
         sf::SoundBuffer buffer;
         sf::Sound sound;
 };

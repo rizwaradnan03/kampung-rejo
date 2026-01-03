@@ -5,6 +5,7 @@
 #include <oth/engine/database.hpp>
 #include <vector>
 #include <oth/node/tilemap.hpp>
+#include "sound.hpp"
 
 class Game {
     public:
@@ -14,6 +15,7 @@ class Game {
     private:
         Database *database;
         std::vector<Tilemap*> tilemaps;
+        std::vector<Sound*> sounds;
 };
 
 #endif
