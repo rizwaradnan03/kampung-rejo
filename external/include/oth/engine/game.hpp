@@ -2,10 +2,18 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <oth/engine/database.hpp>
+#include <vector>
+#include <oth/node/tilemap.hpp>
 
 class Game {
     public:
         void Run(sf::RenderWindow *window);
+        void setTileMap(Tilemap *tm);
+
+    private:
+        Database *database;
+        std::vector<Tilemap*> tilemaps;
 };
 
 #endif

@@ -11,38 +11,24 @@
 #include <vector>
 #include <thread>
 #include <oth/engine/sound.hpp>
+#include <oth/engine/initialization.hpp>
+
+// Sound vineBoom("assets/sound/vine-boom.mp3");
+// vineBoom.Play();
+
+void Game::setTileMap(Tilemap *tm){
+    this->tilemaps.push_back(tm);
+}
 
 void Game::Run(sf::RenderWindow *window){
-    std::vector<Tilemap*> tilemaps;
+    Initialization init;
+    this->database = init.InitDatabase();
+    this->setTileMap(init.InitTileMaps());
+
     Player py(sf::Color::Green, 50, 50);
     Screen scr;
     Config cf;
-
-    Tilemap tm(1);
-
-    // Sound vineBoom("assets/sound/vine-boom.mp3");
-    // vineBoom.Play();
-
-    int yVal = 0, xVal = 0;
-    while (yVal < 21){
-        while (xVal < 28){
-            RectangleBlock *bl = new RectangleBlock(
-                sf::Color::Blue,
-                40,
-                40,
-                xVal * 40,
-                yVal * 40);
-
-            tm.setTile(yVal, xVal, bl);
-            xVal++;
-        }
-
-        xVal = 0;
-        yVal++;
-    }
-
-    tilemaps.push_back(&tm);
-
+    
     auto lastFrameTime = std::chrono::steady_clock::now();
     while (window->isOpen()){
         auto currentFrameTime = std::chrono::steady_clock::now();
@@ -52,8 +38,8 @@ void Game::Run(sf::RenderWindow *window){
 
         window->clear();
         
-        for(int i = 0;i < tilemaps.size();i++){
-            tilemaps[i]->renderTiles(window);
+        for(int i = 0;i < this->tilemaps.size();i++){
+            this->tilemaps[i]->renderTiles(window);
         }
 
         while (const std::optional event = window->pollEvent()){
