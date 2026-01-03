@@ -55,62 +55,34 @@ Database *Initialization::InitDatabase()
         db->executeQuery(ic2[i].c_str());
     }
 
-    int yVal = 0, xVal = 0;
-    while (yVal < 21)
-    {
-        while (xVal < 28)
-        {
-
-            std::string colorHex = c->colorToHex(sf::Color::Blue);
-
-            std::stringstream sql;
-            sql << "INSERT INTO tiles (color, width, height, x_position, y_position) VALUES ('"
-            << colorHex << "', "
-            << 40 << ", "
-            << 40 << ", "
-            << 40 * xVal << ", "
-            << 40 * yVal << ");";
-
-            std::string query = sql.str();
-            std::cout << "Query Se : " << query << std::endl;
-            db->executeQuery(query.c_str());
-
-            xVal++;
-        }
-
-        xVal = 0;
-        yVal++;
-    }
-
-    // std::cout << "Berandalan" << std::endl;
-
     return db;
 }
 
-Tilemap *Initialization::InitTileMaps(Database *database){
-    Tilemap *tm = new Tilemap(1);
-    Color* c;
+std::vector<Tilemap*> Initialization::InitTileMaps(Database *database){
+    std::vector<Tilemap*> tilemaps;
 
-    int yVal = 0, xVal = 0;
+    for(int i = 0;i < 2;i++){
+        Tilemap *tm = new Tilemap(i + 1);
 
-    std::vector<TileInterface> tiles = database->getTile();
-    std::cout << "Jumlah Tilese : " << tiles.size() << std::endl;
+        int xp = 0, yp = 0;
+        while(yp < 21){
+            while(xp < 28){
+                int whxy = 40;
+                sf::Color col = sf::Color::Blue;
 
-    for(int i = 0;i < tiles.size();i++){
-        TileInterface t = tiles[i];
+                RectangleBlock *rb = new RectangleBlock(col, whxy, whxy, xp * whxy, yp * whxy);
+                tm->setTile(yp, xp, rb);
 
-        RectangleBlock* bl = new RectangleBlock(
-            c->hexToColor(t.color),
-            t.width,
-            t.height,
-            t.x_position,
-            t.y_position
-        );
+                xp++;
+            }
+            xp = 0;
+            yp++;
+        }
 
-        tm->setTile(t.x_position == 0 ? 0 : t.x_position / 40, t.y_position == 0 ? 0 : t.y_position / 40, bl);
+        tilemaps.push_back(tm);
     }
 
-    return tm;
+    return tilemaps;
 }
 
 std::vector<Sound*> Initialization::InitSounds(){

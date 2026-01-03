@@ -9,7 +9,7 @@
 class Initialization {
     public: 
         Database* InitDatabase();
-        Tilemap* InitTileMaps(Database *database);
+        std::vector<Tilemap*> InitTileMaps(Database *database);
         std::vector<Sound*> InitSounds();
 };
 

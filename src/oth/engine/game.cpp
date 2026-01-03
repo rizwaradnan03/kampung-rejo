@@ -23,7 +23,7 @@ void Game::setTileMap(Tilemap *tm){
 void Game::Run(sf::RenderWindow *window){
     Initialization init;
     this->database = init.InitDatabase();
-    this->setTileMap(init.InitTileMaps(this->database));
+    this->tilemaps = init.InitTileMaps(this->database);
 
     Player py(sf::Color::Green, 50, 50, this->database);
     Screen scr;
