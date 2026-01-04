@@ -1,7 +1,7 @@
 #include <oth/engine/input.hpp>
 #include <iostream>
 
-void InputHandling::InputHandle(float dt, const sf::Event& event){
+void InputHandling::_input_handle(float dt, const sf::Event& event){
     // if(event.is<sf::Event::KeyPressed>()){
     //     auto key = event.getIf<sf::Event::KeyPressed>()->code;
 

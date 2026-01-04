@@ -27,7 +27,7 @@ public:
     void clearInventory();
 
     void _shape_render(sf::RenderWindow* window) override;
-    void InputHandle(float dt, const sf::Event& event) override;
+    void _input_handle(float dt, const sf::Event& event) override;
 
     void HandleCollision();
 

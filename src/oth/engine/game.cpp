@@ -53,7 +53,7 @@ void Game::Run(sf::RenderWindow *window){
             if (event->is<sf::Event::Closed>()){
                 window->close();
             }else{
-                py.InputHandle(dt, *event);
+                py._input_handle(dt, *event);
             }
         }
 

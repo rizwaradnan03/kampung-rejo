@@ -12,7 +12,7 @@ int SPEED = 2000;
 Player::Player(const sf::Color& color, float width, float height, Database *database){
     // base shape
     this->shape.setSize(sf::Vector2f(width, height));
-    this->shape.setFillColor(color);
+    // this->shape.setFillColor(color);
     this->shape.setOrigin(sf::Vector2f(0, 0));
     this->shape.setPosition({0.f, 0.f});
     
@@ -130,7 +130,7 @@ sf::Vector2f Player::getPosition(){
     return this->shape.getPosition();
 }
 
-void Player::InputHandle(float dt, const sf::Event& event){
+void Player::_input_handle(float dt, const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
         auto keyB = event.getIf<sf::Event::KeyPressed>()->code;
         sf::Vector2f currentPost = shape.getPosition();
