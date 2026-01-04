@@ -1,4 +1,4 @@
-#include <oth/engine/player.hpp>
+#include <oth/node/body/player.hpp>
 #include <algorithm>
 #include <utility>
 #include <SFML/Graphics.hpp>
@@ -8,13 +8,24 @@
 int SPEED = 2000;
 
 Player::Player(const sf::Color& color, float width, float height, Database *database){
+    // base shape
     this->shape.setSize(sf::Vector2f(width, height));
     this->shape.setFillColor(color);
-
-    this->shape.setOrigin(sf::Vector2f(width / 2.f, height / 2.f));
+    this->shape.setOrigin(sf::Vector2f(0, 0));
     this->shape.setPosition({0.f, 0.f});
 
+    if(!this->leg_texture.loadFromFile("assets/accessories/default/idle_default_bottom.png")){
+        std::cout << "Failed Load Texture!!" << std::endl;
+    }
+
+    this->leg.setSize(sf::Vector2f(width, height));
+    this->leg.setTexture(&this->leg_texture);
+    this->leg.setOrigin(sf::Vector2f(0, -5));
+
     this->database = database;
+    this->elapsed_time = 0.f;
+    this->setIsMoving(false);
+
 }
 
 void Player::setName(const std::string& name) {
@@ -61,6 +72,35 @@ void Player::clearInventory() {
 
 void Player::shapeRender(sf::RenderWindow* window){
     window->draw(this->shape);
+    window->draw(this->leg);
+}
+
+void Player::setStateMovement(std::string movement){
+    this->state_movement = movement;
+}
+
+std::string Player::getStateMovement(){
+    return this->state_movement;
+}
+
+void Player::setStateAction(std::string action){
+    this->state_action = action;
+}
+
+std::string Player::getStateAction(){
+    return this->state_action;
+}
+
+void Player::setIsMoving(bool mv){
+    this->is_moving = mv;
+}
+
+bool Player::getIsMoving(){
+    return this->is_moving;
+}
+
+sf::Vector2f Player::getPosition(){
+    return this->shape.getPosition();
 }
 
 void Player::InputHandle(float dt, const sf::Event& event){
@@ -70,25 +110,37 @@ void Player::InputHandle(float dt, const sf::Event& event){
 
         if(keyB == sf::Keyboard::Key::A){
             currentPost.x -= dt * SPEED;
+            this->setStateMovement("walk_left");
+
         }else if(keyB == sf::Keyboard::Key::D){
             currentPost.x += dt * SPEED;
+            this->setStateMovement("walk_right");
+            
         }else if(keyB == sf::Keyboard::Key::W){
             currentPost.y -= dt * SPEED;
+            this->setStateMovement("walk_top");
+            
         }else if(keyB == sf::Keyboard::Key::S){
             currentPost.y += dt * SPEED;
+            this->setStateMovement("walk_bottom");
         }
 
         this->shape.setPosition(currentPost);
+        this->setIsMoving(true);
+    }else if(event.is<sf::Event::KeyReleased>()){
+        this->setIsMoving(false);
     }
 
     if(event.is<sf::Event::MouseButtonPressed>()){
-        std::vector<TilemapInterface> tilemaps = this->database->getTilemap();
-        std::cout << "Tilemaps Size : " << tilemaps.size() << std::endl;
-        // std::cout << "Mouse Button Pressed" << std::endl;
+        std::cout << this->getStateMovement() << std::endl;
     }
+}
+
+void Player::AnimatedSprite(){
 
 }
 
 void Player::Process(float dt, const sf::Event& event){
+    this->AnimatedSprite();
     this->InputHandle(dt, event);
 }

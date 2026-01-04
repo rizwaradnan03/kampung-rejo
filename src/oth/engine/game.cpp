@@ -3,7 +3,7 @@
 #include <oth/engine/display.hpp>
 #include <oth/engine/input.hpp>
 #include <oth/engine/config.hpp>
-#include <oth/engine/player.hpp>
+#include <oth/node/body/player.hpp>
 #include <oth/node/screen.hpp>
 #include <oth/node/block/rectangle_block.hpp>
 #include <oth/node/tilemap.hpp>
@@ -25,10 +25,12 @@ void Game::Run(sf::RenderWindow *window){
     this->database = init.InitDatabase();
     this->tilemaps = init.InitTileMaps(this->database);
 
-    Player py(sf::Color::Green, 50, 50, this->database);
+    Player py(sf::Color::Green, 32, 32, this->database);
     Screen scr;
     Config cf;
-    
+
+    this->camera.setSize(sf::Vector2f(1280.f, 720.f));
+
     auto lastFrameTime = std::chrono::steady_clock::now();
     while (window->isOpen()){
         auto currentFrameTime = std::chrono::steady_clock::now();
@@ -36,12 +38,15 @@ void Game::Run(sf::RenderWindow *window){
         lastFrameTime = currentFrameTime;
         float dt = deltaTime.count();
 
+        this->camera.setCenter(py.getPosition());
+        window->setView(this->camera);
+
         window->clear();
         
         for(int i = 0;i < this->tilemaps.size();i++){
             this->tilemaps[i]->renderTiles(window);
         }
-
+        
         while (const std::optional event = window->pollEvent()){
             if (event->is<sf::Event::Closed>()){
                 window->close();

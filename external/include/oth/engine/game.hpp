@@ -16,6 +16,7 @@ class Game {
         Database *database;
         std::vector<Tilemap*> tilemaps;
         std::vector<Sound*> sounds;
+        sf::View camera;
 };
 
 #endif

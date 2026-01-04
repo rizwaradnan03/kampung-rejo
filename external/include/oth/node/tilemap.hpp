@@ -14,7 +14,7 @@ class Tilemap {
         int getPriority();
 
     private:
-        RectangleBlock* tiles[840 / 40][1120 / 40];
+        RectangleBlock* tiles[640 + 32 / 32][864 / 32];
         int priority;
 };
 

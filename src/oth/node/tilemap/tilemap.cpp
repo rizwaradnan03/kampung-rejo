@@ -23,9 +23,9 @@ void Tilemap::renderTiles(sf::RenderWindow *window)
     int yVal = 0;
     int xVal = 0;
 
-    while (yVal < 21)
+    while (yVal < (640 / 32))
     {
-        while (xVal < 28)
+        while (xVal < (864 / 32))
         {
             if (tiles[yVal][xVal])
             {

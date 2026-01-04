@@ -65,9 +65,9 @@ std::vector<Tilemap*> Initialization::InitTileMaps(Database *database){
         Tilemap *tm = new Tilemap(i + 1);
 
         int xp = 0, yp = 0;
-        while(yp < 21){
-            while(xp < 28){
-                int whxy = 40;
+        while(yp < (640 / 32)){
+            while(xp < (864 / 32)){
+                int whxy = 32;
                 sf::Color col = sf::Color::Blue;
 
                 RectangleBlock *rb = new RectangleBlock(col, whxy, whxy, xp * whxy, yp * whxy);
