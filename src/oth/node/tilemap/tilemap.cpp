@@ -3,8 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-Tilemap::Tilemap(int priority)
-{
+Tilemap::Tilemap(int priority){
     this->priority = priority;
 }
 
@@ -23,9 +22,9 @@ void Tilemap::renderTiles(sf::RenderWindow *window)
     int yVal = 0;
     int xVal = 0;
 
-    while (yVal < (640 / 32))
+    while (yVal < (320 / 32))
     {
-        while (xVal < (864 / 32))
+        while (xVal < (432 / 32))
         {
             if (tiles[yVal][xVal])
             {

@@ -2,6 +2,10 @@
 
 class Display {
     public:
-        static unsigned int width;
-        static unsigned int height;
+        void setWidth(int w);
+        void setHeight(int h);
+
+    private:
+        unsigned int width = 1920;
+        unsigned int height = 1080;
 };

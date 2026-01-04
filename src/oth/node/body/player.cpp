@@ -107,25 +107,29 @@ void Player::InputHandle(float dt, const sf::Event& event){
         auto keyB = event.getIf<sf::Event::KeyPressed>()->code;
         sf::Vector2f currentPost = shape.getPosition();
 
-        if(keyB == sf::Keyboard::Key::A){
-            currentPost.x -= dt * SPEED;
-            this->setStateMovement("walk_left");
-
-        }else if(keyB == sf::Keyboard::Key::D){
-            currentPost.x += dt * SPEED;
-            this->setStateMovement("walk_right");
-            
-        }else if(keyB == sf::Keyboard::Key::W){
-            currentPost.y -= dt * SPEED;
-            this->setStateMovement("walk_top");
-            
-        }else if(keyB == sf::Keyboard::Key::S){
-            currentPost.y += dt * SPEED;
-            this->setStateMovement("walk_bottom");
+        if(keyB == sf::Keyboard::Key::A || keyB == sf::Keyboard::Key::D || keyB == sf::Keyboard::Key::W || keyB == sf::Keyboard::Key::S){
+            if(keyB == sf::Keyboard::Key::A){
+                currentPost.x -= dt * SPEED;
+                this->setStateMovement("walk_left");
+    
+            }else if(keyB == sf::Keyboard::Key::D){
+                currentPost.x += dt * SPEED;
+                this->setStateMovement("walk_right");
+                
+            }else if(keyB == sf::Keyboard::Key::W){
+                currentPost.y -= dt * SPEED;
+                this->setStateMovement("walk_top");
+                
+            }else if(keyB == sf::Keyboard::Key::S){
+                currentPost.y += dt * SPEED;
+                this->setStateMovement("walk_bottom");
+            }
+    
+            this->shape.setPosition(currentPost);
+            this->setIsMoving(true);
+        }else{
+            this->setIsMoving(false);
         }
-
-        this->shape.setPosition(currentPost);
-        this->setIsMoving(true);
     }else if(event.is<sf::Event::KeyReleased>()){
         this->setIsMoving(false);
     }
@@ -136,14 +140,29 @@ void Player::InputHandle(float dt, const sf::Event& event){
 }
 
 void Player::AnimatedSprite(){
+    std::string movChoose = "idle_bottom";
+    std::string stm = this->getStateMovement();
 
+    if(this->is_moving == false){
+        if(stm == "walk_bottom"){
+            movChoose = "idle_bottom";
+        }else if(stm == "walk_top"){
+            movChoose = "idle_top";
+        }else if(stm == "walk_right"){
+            movChoose = "idle_right";
+        }else if(stm == "walk_left"){
+            movChoose = "idle_left";
+        }
+    }else{
+        movChoose = stm;
+    }
+
+    
 }
 
 void Player::calculate_elapsed_time(){
     float delta_time = this->clock.restart().asSeconds();
-    elapsed_time += delta_time;
-
-    std::cout << "Delta Time : " << elapsed_time << std::endl;
+    this->elapsed_time += delta_time;
 }
 
 void Player::Process(float dt){
