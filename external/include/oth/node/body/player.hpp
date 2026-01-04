@@ -14,7 +14,7 @@
 class Player: public Render, public Physics, public InputHandling {
 public:
     Player(const sf::Color& color, float width, float height, Database *database);
-    void Process(float dt, const sf::Event& event);
+    void Process(float dt);
     void AnimatedSprite();
 
     void setName(const std::string& name);
@@ -40,6 +40,8 @@ public:
     void setIsMoving(bool im);
     bool getIsMoving();
 
+    void calculate_elapsed_time();
+
     sf::Vector2f getPosition();
 
 private:
@@ -60,6 +62,7 @@ private:
     sf::RectangleShape body;
     sf::RectangleShape top;
 
+    sf::Clock clock;
     float elapsed_time;
 };
 

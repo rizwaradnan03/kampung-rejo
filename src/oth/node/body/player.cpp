@@ -25,7 +25,6 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     this->database = database;
     this->elapsed_time = 0.f;
     this->setIsMoving(false);
-
 }
 
 void Player::setName(const std::string& name) {
@@ -140,7 +139,14 @@ void Player::AnimatedSprite(){
 
 }
 
-void Player::Process(float dt, const sf::Event& event){
+void Player::calculate_elapsed_time(){
+    float delta_time = this->clock.restart().asSeconds();
+    elapsed_time += delta_time;
+
+    std::cout << "Delta Time : " << elapsed_time << std::endl;
+}
+
+void Player::Process(float dt){
+    this->calculate_elapsed_time();
     this->AnimatedSprite();
-    this->InputHandle(dt, event);
 }
