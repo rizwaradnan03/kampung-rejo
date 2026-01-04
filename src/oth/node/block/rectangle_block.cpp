@@ -11,6 +11,6 @@ RectangleBlock::RectangleBlock(const sf::Color& color, float width, float height
     this->shape.setPosition(sf::Vector2f(xPos, yPos));
 }
 
-void RectangleBlock::shapeRender(sf::RenderWindow* window){
+void RectangleBlock::_shape_render(sf::RenderWindow* window){
     window->draw(this->shape);
 }

@@ -30,6 +30,7 @@ void Game::Run(sf::RenderWindow *window){
     Config cf;
 
     this->camera.setSize(sf::Vector2f(1280.f, 720.f));
+    this->camera.zoom(0.4f);
 
     auto lastFrameTime = std::chrono::steady_clock::now();
     while (window->isOpen()){
@@ -39,6 +40,7 @@ void Game::Run(sf::RenderWindow *window){
         float dt = deltaTime.count();
 
         this->camera.setCenter(py.getPosition());
+        
         window->setView(this->camera);
 
         window->clear();
@@ -56,7 +58,7 @@ void Game::Run(sf::RenderWindow *window){
         }
 
         py.Process(dt);
-        py.shapeRender(window);
+        py._shape_render(window);
         window->display();
     }
 }

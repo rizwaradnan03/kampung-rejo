@@ -26,7 +26,7 @@ public:
     void deleteInventory(int id);
     void clearInventory();
 
-    void shapeRender(sf::RenderWindow* window) override;
+    void _shape_render(sf::RenderWindow* window) override;
     void InputHandle(float dt, const sf::Event& event) override;
 
     void HandleCollision();
@@ -46,6 +46,9 @@ public:
     
     void set_movement_by_action(std::string action);
 
+    void set_selected_move(int mv);
+    int get_selected_move();
+
 private:
     std::string id;
     std::string name;
@@ -53,17 +56,15 @@ private:
     Database *database;
     
     bool is_moving;
-    
+
     std::string state_movement;
     std::string state_action;
     
     // shape justify the body it self and if AND IF STATE MOVEMENT WILL EXECUTE (LEG, BODY, TOP IT SELF)
     sf::RectangleShape shape;
-
+    
     sf::Texture movement_lists[2][6];
-    sf::RectangleShape sprite_lists[2][6];
-
-    std::vector<sf::RectangleShape> sprites;
+    int selected_move;
 
     sf::Clock clock;
     float elapsed_time;

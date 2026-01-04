@@ -9,7 +9,7 @@
 class Block : public Render, public Physics {
     public:
         // Block(const sf::Color& color, float width, float height);
-        virtual void shapeRender(sf::RenderWindow* window) override;
+        virtual void _shape_render(sf::RenderWindow* window) override;
 };
 
 #endif

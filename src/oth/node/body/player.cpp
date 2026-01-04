@@ -15,11 +15,12 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     this->shape.setFillColor(color);
     this->shape.setOrigin(sf::Vector2f(0, 0));
     this->shape.setPosition({0.f, 0.f});
-
+    
     this->database = database;
     this->elapsed_time = 0.f;
     this->setIsMoving(false);
     this->state_movement = "idle_bottom";
+    this->selected_move = 0; 
 
     std::string txts[2][2] = {
         {
@@ -32,6 +33,7 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
         },
     };
 
+    // initialize the texture
     for(int i = 0;i < 2;i++){
         std::vector<sf::Texture> mvs;
 
@@ -49,11 +51,6 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
             if(!this->movement_lists[i][j].loadFromFile(stringified)){
                 std::cout << "Failed To Load Texture!!" << std::endl;
             }
-            
-            this->sprite_lists[i][j].setSize(sf::Vector2f(width, height));
-            this->sprite_lists[i][j].setOrigin(sf::Vector2f(0, 0));
-            this->sprite_lists[i][j].setPosition({0.f, 0.f});
-            this->sprite_lists[i][j].setTexture(&this->movement_lists[i][j]);
         }
     }
 }
@@ -100,12 +97,9 @@ void Player::clearInventory() {
     inventory.clear();
 }
 
-void Player::shapeRender(sf::RenderWindow* window){
-    // window->draw(this->shape);
-    std::cout << "Sprites Length : " << this->sprites.size() << std::endl;
-    for(int i = 0;i < this->sprites.size();i++){
-        window->draw(this->sprites[i]);
-    }
+void Player::_shape_render(sf::RenderWindow* window){
+    this->shape.setTexture(&this->movement_lists[this->selected_move][0]);
+    window->draw(this->shape);
 }
 
 void Player::setStateMovement(std::string movement){
@@ -140,25 +134,33 @@ void Player::InputHandle(float dt, const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
         auto keyB = event.getIf<sf::Event::KeyPressed>()->code;
         sf::Vector2f currentPost = shape.getPosition();
-
+        
         if(keyB == sf::Keyboard::Key::A || keyB == sf::Keyboard::Key::D || keyB == sf::Keyboard::Key::W || keyB == sf::Keyboard::Key::S){
+            std::string mov = "walk_left";
+
             if(keyB == sf::Keyboard::Key::A){
                 currentPost.x -= dt * SPEED;
-                this->setStateMovement("walk_left");
-    
+                mov = "walk_left";
+                
             }else if(keyB == sf::Keyboard::Key::D){
                 currentPost.x += dt * SPEED;
-                this->setStateMovement("walk_right");
+                mov = "walk_right";
                 
             }else if(keyB == sf::Keyboard::Key::W){
                 currentPost.y -= dt * SPEED;
-                this->setStateMovement("walk_top");
+                mov = "walk_top";
                 
             }else if(keyB == sf::Keyboard::Key::S){
                 currentPost.y += dt * SPEED;
-                this->setStateMovement("walk_bottom");
+                mov = "walk_bottom";
             }
     
+            // checking the last so do i need to refetch again?
+            if(mov != this->getStateMovement()){
+                this->elapsed_time = 0.f;
+            }
+
+            this->setStateMovement(mov);
             this->shape.setPosition(currentPost);
             this->setIsMoving(true);
         }else{
@@ -175,7 +177,6 @@ void Player::InputHandle(float dt, const sf::Event& event){
 
 void Player::set_movement_by_action(std::string action){
     int index = 0;
-    std::vector<sf::RectangleShape> spts;
 
     if(action == "idle_bottom"){
         index = 0;
@@ -183,14 +184,12 @@ void Player::set_movement_by_action(std::string action){
         index = 1;
     }
 
-    for(int i = 0;i < 6;i++){
-        spts.push_back(this->sprite_lists[index][i]);
-    }
-
-    this->sprites = spts;
+    this->set_selected_move(index);
 }
 
+// to handle every movement from above function
 void Player::animated_sprite(){
+    // checking refetch sprite
     std::string movChoose = "idle_bottom";
     std::string stm = this->getStateMovement();
 
@@ -214,6 +213,14 @@ void Player::animated_sprite(){
 void Player::calculate_elapsed_time(){
     float delta_time = this->clock.restart().asSeconds();
     this->elapsed_time += delta_time;
+}
+
+void Player::set_selected_move(int mv){
+    this->selected_move = mv;
+}
+
+int Player::get_selected_move(){
+    return this->selected_move;
 }
 
 void Player::Process(float dt){

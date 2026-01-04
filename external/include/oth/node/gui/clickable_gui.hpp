@@ -8,7 +8,7 @@ class ClickableGui: public Render {
     public:
         ClickableGui(const sf::Color& color, float width, float height, float posX, float posY);
 
-        void shapeRender(sf::RenderWindow *window) override;
+        void _shape_render(sf::RenderWindow *window) override;
         void click();
     
     private:

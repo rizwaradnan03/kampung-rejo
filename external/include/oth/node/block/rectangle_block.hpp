@@ -9,7 +9,7 @@
 class RectangleBlock: public Block {
     public:
         RectangleBlock(const sf::Color& color, float width, float height, int xPos, int yPos);
-        void shapeRender(sf::RenderWindow* window) override;
+        void _shape_render(sf::RenderWindow* window) override;
 
     private:
         std::string id;

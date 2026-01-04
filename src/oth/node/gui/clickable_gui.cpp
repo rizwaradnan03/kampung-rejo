@@ -8,7 +8,7 @@ ClickableGui::ClickableGui(const sf::Color& color, float width, float height, fl
     this->shape.setPosition(sf::Vector2f(posX, posY));
 }
 
-void ClickableGui::shapeRender(sf::RenderWindow *window){
+void ClickableGui::_shape_render(sf::RenderWindow *window){
     window->draw(this->shape);
 }
 

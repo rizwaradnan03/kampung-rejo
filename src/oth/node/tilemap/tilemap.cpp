@@ -28,7 +28,7 @@ void Tilemap::renderTiles(sf::RenderWindow *window)
         {
             if (tiles[yVal][xVal])
             {
-                tiles[yVal][xVal]->shapeRender(window);
+                tiles[yVal][xVal]->_shape_render(window);
             }
             xVal++;
         }

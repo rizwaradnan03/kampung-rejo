@@ -9,7 +9,7 @@
 class CircleBlock: public Block {
     public:
         CircleBlock(const sf::Color& color, float radius);
-        void shapeRender(sf::RenderWindow* window) override;
+        void _shape_render(sf::RenderWindow* window) override;
 
     private:
         std::string id;

@@ -11,6 +11,6 @@ CircleBlock::CircleBlock(const sf::Color& color, float radius){
     this->shape.setOrigin({radius, radius});
 }
 
-void CircleBlock::shapeRender(sf::RenderWindow* window){
+void CircleBlock::_shape_render(sf::RenderWindow* window){
     window->draw(this->shape);
 }
