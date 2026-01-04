@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <oth/engine/database.hpp>
+#include <string>
+#include <vector>
 
 int SPEED = 2000;
 
@@ -14,17 +16,46 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     this->shape.setOrigin(sf::Vector2f(0, 0));
     this->shape.setPosition({0.f, 0.f});
 
-    if(!this->leg_texture.loadFromFile("assets/accessories/default/idle_default_bottom.png")){
-        std::cout << "Failed Load Texture!!" << std::endl;
-    }
-
-    this->leg.setSize(sf::Vector2f(width, height));
-    this->leg.setTexture(&this->leg_texture);
-    this->leg.setOrigin(sf::Vector2f(0, -5));
-
     this->database = database;
     this->elapsed_time = 0.f;
     this->setIsMoving(false);
+    this->state_movement = "idle_bottom";
+
+    std::string txts[2][2] = {
+        {
+            "idle_bottom",
+            "idle_bottom"
+        },
+        {
+            "idle_right",
+            "idle_right"
+        },
+    };
+
+    for(int i = 0;i < 2;i++){
+        std::vector<sf::Texture> mvs;
+
+        for(int j = 0;j < 6;j++){
+            std::string stringified = "assets/player/";
+            if(i == 0){
+                stringified += "idle_bottom/";
+            }else if(i == 1){
+                stringified += "idle_right/";
+            }
+
+            std::string strf = std::to_string(j+1);
+            stringified += txts[i][0] + "_" + strf + ".png";
+            
+            if(!this->movement_lists[i][j].loadFromFile(stringified)){
+                std::cout << "Failed To Load Texture!!" << std::endl;
+            }
+            
+            this->sprite_lists[i][j].setSize(sf::Vector2f(width, height));
+            this->sprite_lists[i][j].setOrigin(sf::Vector2f(0, 0));
+            this->sprite_lists[i][j].setPosition({0.f, 0.f});
+            this->sprite_lists[i][j].setTexture(&this->movement_lists[i][j]);
+        }
+    }
 }
 
 void Player::setName(const std::string& name) {
@@ -70,8 +101,11 @@ void Player::clearInventory() {
 }
 
 void Player::shapeRender(sf::RenderWindow* window){
-    window->draw(this->shape);
-    window->draw(this->leg);
+    // window->draw(this->shape);
+    std::cout << "Sprites Length : " << this->sprites.size() << std::endl;
+    for(int i = 0;i < this->sprites.size();i++){
+        window->draw(this->sprites[i]);
+    }
 }
 
 void Player::setStateMovement(std::string movement){
@@ -139,7 +173,24 @@ void Player::InputHandle(float dt, const sf::Event& event){
     }
 }
 
-void Player::AnimatedSprite(){
+void Player::set_movement_by_action(std::string action){
+    int index = 0;
+    std::vector<sf::RectangleShape> spts;
+
+    if(action == "idle_bottom"){
+        index = 0;
+    }else if(action == "idle_right"){
+        index = 1;
+    }
+
+    for(int i = 0;i < 6;i++){
+        spts.push_back(this->sprite_lists[index][i]);
+    }
+
+    this->sprites = spts;
+}
+
+void Player::animated_sprite(){
     std::string movChoose = "idle_bottom";
     std::string stm = this->getStateMovement();
 
@@ -157,7 +208,7 @@ void Player::AnimatedSprite(){
         movChoose = stm;
     }
 
-    
+    this->set_movement_by_action(movChoose);
 }
 
 void Player::calculate_elapsed_time(){
@@ -167,5 +218,5 @@ void Player::calculate_elapsed_time(){
 
 void Player::Process(float dt){
     this->calculate_elapsed_time();
-    this->AnimatedSprite();
+    this->animated_sprite();
 }

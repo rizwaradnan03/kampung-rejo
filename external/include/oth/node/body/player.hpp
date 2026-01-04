@@ -15,7 +15,7 @@ class Player: public Render, public Physics, public InputHandling {
 public:
     Player(const sf::Color& color, float width, float height, Database *database);
     void Process(float dt);
-    void AnimatedSprite();
+    void animated_sprite();
 
     void setName(const std::string& name);
     std::string getName() const;
@@ -43,6 +43,8 @@ public:
     void calculate_elapsed_time();
 
     sf::Vector2f getPosition();
+    
+    void set_movement_by_action(std::string action);
 
 private:
     std::string id;
@@ -57,10 +59,11 @@ private:
     
     // shape justify the body it self and if AND IF STATE MOVEMENT WILL EXECUTE (LEG, BODY, TOP IT SELF)
     sf::RectangleShape shape;
-    sf::RectangleShape leg;
-    sf::Texture leg_texture;
-    sf::RectangleShape body;
-    sf::RectangleShape top;
+
+    sf::Texture movement_lists[2][6];
+    sf::RectangleShape sprite_lists[2][6];
+
+    std::vector<sf::RectangleShape> sprites;
 
     sf::Clock clock;
     float elapsed_time;
