@@ -1,9 +1,9 @@
 @echo off
 setlocal
 
-echo =============================
-echo Building SFML Project
-echo =============================
+@REM echo =============================
+@REM echo Building SFML Project
+@REM echo =============================
 
 if not exist build (
     mkdir build
@@ -17,14 +17,14 @@ if errorlevel 1 goto error
 mingw32-make
 if errorlevel 1 goto error
 
-echo =============================
-echo Copying SFML DLLs
-echo =============================
+@REM echo =============================
+@REM echo Copying SFML DLLs
+@REM echo =============================
 copy ..\external\bin\*.dll . >nul
 
-echo =============================
-echo Running Program
-echo =============================
+@REM echo =============================
+@REM echo Running Program
+@REM echo =============================
 kampung_rejo.exe
 
 pause

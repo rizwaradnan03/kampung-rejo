@@ -14,8 +14,8 @@
 class Player: public Render, public Physics, public InputHandling {
 public:
     Player(const sf::Color& color, float width, float height, Database *database);
+    void preparation();
     void Process(float dt);
-    void animated_sprite();
 
     void set_name(const std::string& name);
     std::string get_name() const;
@@ -29,8 +29,6 @@ public:
     void _shape_render(sf::RenderWindow* window) override;
     void _input_handle(float dt, const sf::Event& event) override;
 
-    void HandleCollision();
-
     void set_state_movement(std::string movement);
     std::string get_state_movement();
     
@@ -40,16 +38,17 @@ public:
     void set_is_moving(bool im);
     bool get_is_moving();
 
+    void set_movements(std::vector<sf::Texture> mvs);
+    std::vector<sf::Texture> get_movements();
+
     void calculate_elapsed_time();
 
     sf::Vector2f get_position();
     
+    void check_movement();
+
     void set_movement_by_action(std::string action);
 
-    void set_selected_move(int mv);
-    int get_selected_move();
-
-    void preparation();
 
 private:
     std::string id;
@@ -63,10 +62,12 @@ private:
     std::string state_action;
     
     sf::RectangleShape shape;
-    
+    std::vector<sf::Texture> movements;
+
     // std::vector<sf::Texture> movement_lists;
-    std::vector<std::pair<std::vector<sf::Texture>, std::string>> movement_lists;
-    int selected_move;
+    std::vector<std::pair<std::string, std::vector<sf::Texture>>> movement_lists;
+
+    int moving_index;
 
     sf::Clock clock;
     float elapsed_time;

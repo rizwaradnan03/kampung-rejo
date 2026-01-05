@@ -8,6 +8,7 @@
 #include <vector>
 #include <oth/engine/initialization.hpp>
 #include <oth/lib/get.hpp>
+#include <cmath>
 
 int SPEED = 2000;
 
@@ -22,13 +23,14 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     this->elapsed_time = 0.f;
     this->set_is_moving(false);
     this->state_movement = "idle_bottom";
-    this->selected_move = 0; 
+
+    this->moving_index = 0;
 
     this->preparation();
 }
 
 void Player::preparation(){
-    std::vector<std::pair<std::vector<sf::Texture>, std::string>> mlists;
+    std::vector<std::pair<std::string, std::vector<sf::Texture>>> mlists;
     int tl = 2;
 
     std::string txts[tl] = {
@@ -46,7 +48,6 @@ void Player::preparation(){
         
         for(int j = 0;j < get_count_of_files_in_path(stringified);j++){
             std::string file_path = stringified + "/" + txts[i] + "_" + std::to_string(j+1) + ".png";
-            std::cout << "Stringified : " << file_path << std::endl;
 
             m.emplace_back();
             if(!m[j].loadFromFile(file_path)){
@@ -54,7 +55,7 @@ void Player::preparation(){
             }
         }
 
-        std::pair<std::vector<sf::Texture>, std::string> lists = std::make_pair(m, txts[i]);
+        std::pair<std::string, std::vector<sf::Texture>> lists = std::make_pair(txts[i], m);
         mlists.push_back(lists);
     }
 
@@ -105,14 +106,6 @@ void Player::clear_inventory() {
     inventory.clear();
 }
 
-void Player::set_selected_move(int mv){
-    this->selected_move = mv;
-}
-
-int Player::get_selected_move(){
-    return this->selected_move;
-}
-
 void Player::set_state_movement(std::string movement){
     this->state_movement = movement;
 }
@@ -141,6 +134,24 @@ sf::Vector2f Player::get_position(){
     return this->shape.getPosition();
 }
 
+void Player::set_movement_by_action(std::string action){
+    for(int i = 0;i < this->movement_lists.size();i++){
+        std::pair<std::string, std::vector<sf::Texture>> ml = movement_lists[i];
+
+        if(ml.first == action){
+            this->set_movements(ml.second);
+        }
+    }
+}
+
+void Player::set_movements(std::vector<sf::Texture> mvs){
+    this->movements = mvs;
+}
+
+std::vector<sf::Texture> Player::get_movements(){
+    return this->movements;
+}
+
 // doing reset if last movement different by current movement
 void Player::_input_handle(float dt, const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
@@ -167,10 +178,9 @@ void Player::_input_handle(float dt, const sf::Event& event){
                 mov = "walk_bottom";
             }
     
-            // checking the last so do i need to refetch again?
+            // i need to reset / refetch it again!!!
             if(mov != this->get_state_movement()){
-                // this->movement_lists = Initialization::get_movement_list_by_action(mov);
-
+                this->moving_index = 0;
                 this->elapsed_time = 0.f;
             }
 
@@ -195,20 +205,27 @@ void Player::calculate_elapsed_time(){
 }
 
 void Player::_shape_render(sf::RenderWindow* window){
-    // this->shape.setTexture(&this->movement_lists[this->selected_move][0]);
+    float for_every = 1 / this->movements.size();
+    if(std::fmod(this->elapsed_time, for_every) == 0){
+        int cl = this->elapsed_time / for_every;
+
+        std::cout << "Me Gustas Tu : " << cl << std::endl;
+    }
+
     window->draw(this->shape);
 }
 
-// to handle every movement from above function
-// void Player::animated_sprite(){
-//     // checking refetch sprite
-//     std::string movChoose = "idle_bottom";
-//     std::string stm = this->get_state_movement();
+void Player::check_movement(){
+    std::string mv = "ide_bottom";
 
-// }
+    if(this->is_moving == false){
+        
+    }else{
+        mv = this->state_movement;
+    }
+}
 
 void Player::Process(float dt){
+    this->check_movement();
     this->calculate_elapsed_time();
-    // this->animated_sprite();
-    // std::cout << "The Movement Lists !! : " << std::endl;
 }
