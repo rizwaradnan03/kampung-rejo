@@ -93,3 +93,61 @@ std::vector<Sound*> Initialization::InitSounds(){
 
     return sounds;
 }
+
+void Initialization::InitMovementList(){
+    std::string txts[2][2] = {
+        {
+            "idle_bottom",
+            "idle_bottom"
+        },
+        {
+            "idle_right",
+            "idle_right"
+        },
+    };
+
+    // initialize the texture
+    for(int i = 0;i < 2;i++){
+        std::vector<sf::Texture> mvs;
+
+        for(int j = 0;j < 6;j++){
+            std::string stringified = "assets/player/";
+            if(i == 0){
+                stringified += "idle_bottom/";
+            }else if(i == 1){
+                stringified += "idle_right/";
+            }
+
+            std::string strf = std::to_string(j+1);
+            stringified += txts[i][0] + "_" + strf + ".png";
+            
+            if(!this->movement_lists[i][j].loadFromFile(stringified)){
+                std::cout << "Failed To Load Texture!!" << std::endl;
+            }
+        }
+    }
+}
+
+void Initialization::InitMovementRule(){
+    std::string movements[4] = {"idle_bottom", "idle_right", "idle_left", "idle_top"};
+
+    for(int i = 0;i < 4;i++){
+        this->movement_rules.push_back(std::make_pair(movements[i], i));
+    }
+}
+
+std::vector<sf::Texture> Initialization::get_movement_list_by_action(std::string action){
+    std::vector<sf::Texture> lists;
+
+    for(int i = 0;i < this->movement_rules.size();i++){
+        std::pair<std::string, int> mr = this->movement_rules[i];
+
+        if(mr.first == action){
+            for(int j = 0;j < 6;j++){
+                lists.push_back(this->movement_lists[mr.second][j]);
+            }
+        }
+    }
+
+    return lists;
+}

@@ -8,7 +8,7 @@ class Sound {
     public:
         Sound(const std::string& path, std::string name);
         void Play();
-        std::string getName();
+        std::string get_name();
         
     private:
         std::string name;

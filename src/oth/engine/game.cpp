@@ -32,6 +32,11 @@ void Game::Run(sf::RenderWindow *window){
     this->camera.setSize(sf::Vector2f(1280.f, 720.f));
     this->camera.zoom(0.4f);
 
+    sf::Clock clock;
+
+    int frameCount = 0;
+    float fps = 0.f;
+
     auto lastFrameTime = std::chrono::steady_clock::now();
     while (window->isOpen()){
         auto currentFrameTime = std::chrono::steady_clock::now();
@@ -39,7 +44,7 @@ void Game::Run(sf::RenderWindow *window){
         lastFrameTime = currentFrameTime;
         float dt = deltaTime.count();
 
-        this->camera.setCenter(py.getPosition());
+        this->camera.setCenter(py.get_position());
         
         window->setView(this->camera);
 
@@ -55,6 +60,16 @@ void Game::Run(sf::RenderWindow *window){
             }else{
                 py._input_handle(dt, *event);
             }
+        }
+
+        frameCount++;
+        sf::Time elapsed = clock.getElapsedTime();
+        if(elapsed.asSeconds() >= 1.0f){
+            fps = frameCount / elapsed.asSeconds();
+            frameCount = 0;
+            clock.restart();
+
+            std::cout << "FPS: " << fps << std::endl;
         }
 
         py.Process(dt);

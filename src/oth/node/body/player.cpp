@@ -6,6 +6,7 @@
 #include <oth/engine/database.hpp>
 #include <string>
 #include <vector>
+#include <oth/engine/initialization.hpp>
 
 int SPEED = 2000;
 
@@ -18,56 +19,24 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     
     this->database = database;
     this->elapsed_time = 0.f;
-    this->setIsMoving(false);
+    this->set_is_moving(false);
     this->state_movement = "idle_bottom";
     this->selected_move = 0; 
-
-    std::string txts[2][2] = {
-        {
-            "idle_bottom",
-            "idle_bottom"
-        },
-        {
-            "idle_right",
-            "idle_right"
-        },
-    };
-
-    // initialize the texture
-    for(int i = 0;i < 2;i++){
-        std::vector<sf::Texture> mvs;
-
-        for(int j = 0;j < 6;j++){
-            std::string stringified = "assets/player/";
-            if(i == 0){
-                stringified += "idle_bottom/";
-            }else if(i == 1){
-                stringified += "idle_right/";
-            }
-
-            std::string strf = std::to_string(j+1);
-            stringified += txts[i][0] + "_" + strf + ".png";
-            
-            if(!this->movement_lists[i][j].loadFromFile(stringified)){
-                std::cout << "Failed To Load Texture!!" << std::endl;
-            }
-        }
-    }
 }
 
-void Player::setName(const std::string& name) {
+void Player::set_name(const std::string& name) {
     this->name = name;
 }
 
-std::string Player::getName() const {
+std::string Player::get_name() const {
     return this->name;
 }
 
-std::vector<std::pair<int,int>> Player::getInventory() const {
+std::vector<std::pair<int,int>> Player::get_inventory() const {
     return inventory;
 }
 
-std::pair<int,int> Player::getSingleInventory(int id) const {
+std::pair<int,int> Player::get_single_inventory(int id) const {
     for (const auto& item : inventory) {
         if (item.first == id)
             return item;
@@ -75,7 +44,7 @@ std::pair<int,int> Player::getSingleInventory(int id) const {
     return std::make_pair(0,0);
 }
 
-void Player::setInventory(int id, int value) {
+void Player::set_inventory(int id, int value) {
     for (auto& item : inventory) {
         if (item.first == id) {
             item.second += value;
@@ -85,7 +54,7 @@ void Player::setInventory(int id, int value) {
     inventory.push_back(std::make_pair(id, value));
 }
 
-void Player::deleteInventory(int id) {
+void Player::delete_inventory(int id) {
     inventory.erase(
         std::remove_if(inventory.begin(), inventory.end(),
                   [id](const std::pair<int,int>& item){ return item.first == id; }),
@@ -93,47 +62,51 @@ void Player::deleteInventory(int id) {
     );
 }
 
-void Player::clearInventory() {
+void Player::clear_inventory() {
     inventory.clear();
 }
 
-void Player::_shape_render(sf::RenderWindow* window){
-    this->shape.setTexture(&this->movement_lists[this->selected_move][0]);
-    window->draw(this->shape);
+void Player::set_selected_move(int mv){
+    this->selected_move = mv;
 }
 
-void Player::setStateMovement(std::string movement){
+int Player::get_selected_move(){
+    return this->selected_move;
+}
+
+void Player::set_state_movement(std::string movement){
     this->state_movement = movement;
 }
 
-std::string Player::getStateMovement(){
+std::string Player::get_state_movement(){
     return this->state_movement;
 }
 
-void Player::setStateAction(std::string action){
+void Player::set_state_action(std::string action){
     this->state_action = action;
 }
 
-std::string Player::getStateAction(){
+std::string Player::get_state_action(){
     return this->state_action;
 }
 
-void Player::setIsMoving(bool mv){
+void Player::set_is_moving(bool mv){
     this->is_moving = mv;
 }
 
-bool Player::getIsMoving(){
+bool Player::get_is_moving(){
     return this->is_moving;
 }
 
-sf::Vector2f Player::getPosition(){
+sf::Vector2f Player::get_position(){
     return this->shape.getPosition();
 }
 
+// doing reset if last movement different by current movement
 void Player::_input_handle(float dt, const sf::Event& event){
     if(event.is<sf::Event::KeyPressed>()){
         auto keyB = event.getIf<sf::Event::KeyPressed>()->code;
-        sf::Vector2f currentPost = shape.getPosition();
+        sf::Vector2f currentPost = this->shape.getPosition();
         
         if(keyB == sf::Keyboard::Key::A || keyB == sf::Keyboard::Key::D || keyB == sf::Keyboard::Key::W || keyB == sf::Keyboard::Key::S){
             std::string mov = "walk_left";
@@ -156,58 +129,25 @@ void Player::_input_handle(float dt, const sf::Event& event){
             }
     
             // checking the last so do i need to refetch again?
-            if(mov != this->getStateMovement()){
+            if(mov != this->get_state_movement()){
+                // this->movement_lists = Initialization::get_movement_list_by_action(mov);
+
                 this->elapsed_time = 0.f;
             }
 
-            this->setStateMovement(mov);
+            this->set_state_movement(mov);
             this->shape.setPosition(currentPost);
-            this->setIsMoving(true);
+            this->set_is_moving(true);
         }else{
-            this->setIsMoving(false);
+            this->set_is_moving(false);
         }
     }else if(event.is<sf::Event::KeyReleased>()){
-        this->setIsMoving(false);
+        this->set_is_moving(false);
     }
 
     if(event.is<sf::Event::MouseButtonPressed>()){
-        std::cout << this->getStateMovement() << std::endl;
+        std::cout << this->get_state_movement() << std::endl;
     }
-}
-
-void Player::set_movement_by_action(std::string action){
-    int index = 0;
-
-    if(action == "idle_bottom"){
-        index = 0;
-    }else if(action == "idle_right"){
-        index = 1;
-    }
-
-    this->set_selected_move(index);
-}
-
-// to handle every movement from above function
-void Player::animated_sprite(){
-    // checking refetch sprite
-    std::string movChoose = "idle_bottom";
-    std::string stm = this->getStateMovement();
-
-    if(this->is_moving == false){
-        if(stm == "walk_bottom"){
-            movChoose = "idle_bottom";
-        }else if(stm == "walk_top"){
-            movChoose = "idle_top";
-        }else if(stm == "walk_right"){
-            movChoose = "idle_right";
-        }else if(stm == "walk_left"){
-            movChoose = "idle_left";
-        }
-    }else{
-        movChoose = stm;
-    }
-
-    this->set_movement_by_action(movChoose);
 }
 
 void Player::calculate_elapsed_time(){
@@ -215,15 +155,21 @@ void Player::calculate_elapsed_time(){
     this->elapsed_time += delta_time;
 }
 
-void Player::set_selected_move(int mv){
-    this->selected_move = mv;
+void Player::_shape_render(sf::RenderWindow* window){
+    // this->shape.setTexture(&this->movement_lists[this->selected_move][0]);
+    window->draw(this->shape);
 }
 
-int Player::get_selected_move(){
-    return this->selected_move;
-}
+// to handle every movement from above function
+// void Player::animated_sprite(){
+//     // checking refetch sprite
+//     std::string movChoose = "idle_bottom";
+//     std::string stm = this->get_state_movement();
+
+// }
 
 void Player::Process(float dt){
     this->calculate_elapsed_time();
-    this->animated_sprite();
+    // this->animated_sprite();
+    // std::cout << "The Movement Lists !! : " << std::endl;
 }

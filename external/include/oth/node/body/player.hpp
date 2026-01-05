@@ -17,32 +17,32 @@ public:
     void Process(float dt);
     void animated_sprite();
 
-    void setName(const std::string& name);
-    std::string getName() const;
+    void set_name(const std::string& name);
+    std::string get_name() const;
 
-    void setInventory(int id, int value);                
-    std::vector<std::pair<int,int>> getInventory() const;
-    std::pair<int,int> getSingleInventory(int id) const;
-    void deleteInventory(int id);
-    void clearInventory();
+    void set_inventory(int id, int value);                
+    std::vector<std::pair<int,int>> get_inventory() const;
+    std::pair<int,int> get_single_inventory(int id) const;
+    void delete_inventory(int id);
+    void clear_inventory();
 
     void _shape_render(sf::RenderWindow* window) override;
     void _input_handle(float dt, const sf::Event& event) override;
 
     void HandleCollision();
 
-    void setStateMovement(std::string movement);
-    std::string getStateMovement();
+    void set_state_movement(std::string movement);
+    std::string get_state_movement();
     
-    void setStateAction(std::string action);
-    std::string getStateAction();
+    void set_state_action(std::string action);
+    std::string get_state_action();
 
-    void setIsMoving(bool im);
-    bool getIsMoving();
+    void set_is_moving(bool im);
+    bool get_is_moving();
 
     void calculate_elapsed_time();
 
-    sf::Vector2f getPosition();
+    sf::Vector2f get_position();
     
     void set_movement_by_action(std::string action);
 
@@ -63,7 +63,7 @@ private:
     // shape justify the body it self and if AND IF STATE MOVEMENT WILL EXECUTE (LEG, BODY, TOP IT SELF)
     sf::RectangleShape shape;
     
-    sf::Texture movement_lists[2][6];
+    std::vector<sf::Texture> movement_lists;
     int selected_move;
 
     sf::Clock clock;

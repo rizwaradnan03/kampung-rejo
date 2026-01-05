@@ -15,6 +15,6 @@ void Sound::Play(){
     sound.play();
 }
 
-std::string Sound::getName(){
+std::string Sound::get_name(){
     return this->name;
 }
