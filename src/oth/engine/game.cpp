@@ -69,7 +69,7 @@ void Game::Run(sf::RenderWindow *window){
             frameCount = 0;
             clock.restart();
 
-            std::cout << "FPS: " << fps << std::endl;
+            fps = 0;
         }
 
         py.Process(dt);

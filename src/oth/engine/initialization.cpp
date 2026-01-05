@@ -95,37 +95,7 @@ std::vector<Sound*> Initialization::InitSounds(){
 }
 
 void Initialization::InitMovementList(){
-    std::string txts[2][2] = {
-        {
-            "idle_bottom",
-            "idle_bottom"
-        },
-        {
-            "idle_right",
-            "idle_right"
-        },
-    };
-
-    // initialize the texture
-    for(int i = 0;i < 2;i++){
-        std::vector<sf::Texture> mvs;
-
-        for(int j = 0;j < 6;j++){
-            std::string stringified = "assets/player/";
-            if(i == 0){
-                stringified += "idle_bottom/";
-            }else if(i == 1){
-                stringified += "idle_right/";
-            }
-
-            std::string strf = std::to_string(j+1);
-            stringified += txts[i][0] + "_" + strf + ".png";
-            
-            if(!this->movement_lists[i][j].loadFromFile(stringified)){
-                std::cout << "Failed To Load Texture!!" << std::endl;
-            }
-        }
-    }
+    
 }
 
 void Initialization::InitMovementRule(){

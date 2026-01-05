@@ -49,6 +49,8 @@ public:
     void set_selected_move(int mv);
     int get_selected_move();
 
+    void preparation();
+
 private:
     std::string id;
     std::string name;
@@ -60,10 +62,10 @@ private:
     std::string state_movement;
     std::string state_action;
     
-    // shape justify the body it self and if AND IF STATE MOVEMENT WILL EXECUTE (LEG, BODY, TOP IT SELF)
     sf::RectangleShape shape;
     
-    std::vector<sf::Texture> movement_lists;
+    // std::vector<sf::Texture> movement_lists;
+    std::vector<std::pair<std::vector<sf::Texture>, std::string>> movement_lists;
     int selected_move;
 
     sf::Clock clock;

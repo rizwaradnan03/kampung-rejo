@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <oth/engine/initialization.hpp>
+#include <oth/lib/get.hpp>
 
 int SPEED = 2000;
 
@@ -22,6 +23,42 @@ Player::Player(const sf::Color& color, float width, float height, Database *data
     this->set_is_moving(false);
     this->state_movement = "idle_bottom";
     this->selected_move = 0; 
+
+    this->preparation();
+}
+
+void Player::preparation(){
+    std::vector<std::pair<std::vector<sf::Texture>, std::string>> mlists;
+    int tl = 2;
+
+    std::string txts[tl] = {
+        {
+            "idle_bottom"
+        },
+        {
+            "idle_right"
+        },
+    };
+
+    for(int i = 0;i < tl;i++){
+        std::vector<sf::Texture> m;
+        std::string stringified = "assets/player/" + txts[i];
+        
+        for(int j = 0;j < get_count_of_files_in_path(stringified);j++){
+            std::string file_path = stringified + "/" + txts[i] + "_" + std::to_string(j+1) + ".png";
+            std::cout << "Stringified : " << file_path << std::endl;
+
+            m.emplace_back();
+            if(!m[j].loadFromFile(file_path)){
+                std::cout << "Failed To Load Texture!" << std::endl;
+            }
+        }
+
+        std::pair<std::vector<sf::Texture>, std::string> lists = std::make_pair(m, txts[i]);
+        mlists.push_back(lists);
+    }
+
+    this->movement_lists = mlists;
 }
 
 void Player::set_name(const std::string& name) {
@@ -37,10 +74,12 @@ std::vector<std::pair<int,int>> Player::get_inventory() const {
 }
 
 std::pair<int,int> Player::get_single_inventory(int id) const {
-    for (const auto& item : inventory) {
-        if (item.first == id)
-            return item;
+    for(int i = 0;i < this->inventory.size();i++){
+        if(this->inventory[i].first == id){
+            return this->inventory[i];
+        }
     }
+
     return std::make_pair(0,0);
 }
 
