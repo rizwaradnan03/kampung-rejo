@@ -130,6 +130,14 @@ bool Player::get_is_moving(){
     return this->is_moving;
 }
 
+void Player::set_movements(std::vector<sf::Texture> mvs){
+    this->movements = mvs;
+}
+
+std::vector<sf::Texture> Player::get_movements(){
+    return this->movements;
+}
+
 sf::Vector2f Player::get_position(){
     return this->shape.getPosition();
 }
@@ -142,14 +150,6 @@ void Player::set_movement_by_action(std::string action){
             this->set_movements(ml.second);
         }
     }
-}
-
-void Player::set_movements(std::vector<sf::Texture> mvs){
-    this->movements = mvs;
-}
-
-std::vector<sf::Texture> Player::get_movements(){
-    return this->movements;
 }
 
 // doing reset if last movement different by current movement
@@ -182,13 +182,13 @@ void Player::_input_handle(float dt, const sf::Event& event){
             if(mov != this->get_state_movement()){
                 this->moving_index = 0;
                 this->elapsed_time = 0.f;
+
+                this->set_movement_by_action(mov);
             }
 
             this->set_state_movement(mov);
             this->shape.setPosition(currentPost);
             this->set_is_moving(true);
-        }else{
-            this->set_is_moving(false);
         }
     }else if(event.is<sf::Event::KeyReleased>()){
         this->set_is_moving(false);
@@ -216,12 +216,36 @@ void Player::_shape_render(sf::RenderWindow* window){
 }
 
 void Player::check_movement(){
-    std::string mv = "ide_bottom";
+    std::string mv = "idle_";
 
-    if(this->is_moving == false){
+    if(this->is_moving == false && this->state_movement.size() > 0){
+        std::string sm = this->state_movement;
         
-    }else{
-        mv = this->state_movement;
+        std::string status = "";
+        std::string direction = "";
+
+        int i = 0;
+        while(true){
+            if(sm[i] == "_"){
+                for(int j = i+1;j < sm.size();j++){
+                    direction += sm[j];
+                }
+                break;
+            }else{
+                status += sm[i];
+            }
+            i++;
+        }
+
+        // checking if the status is walk??!!
+        if(status == "move"){
+            // std::string stringified_mov = "idle_" + direction;
+
+            // this->state_movement = state_movement;
+            // this->moving_index = 0;
+            // this->elapsed_time = 0.f;
+            // this->set_movement_by_action(stringified_mov);
+        }
     }
 }
 

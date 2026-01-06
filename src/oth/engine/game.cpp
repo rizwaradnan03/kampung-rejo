@@ -25,7 +25,7 @@ void Game::Run(sf::RenderWindow *window){
     this->database = init.InitDatabase();
     this->tilemaps = init.InitTileMaps(this->database);
 
-    Player py(sf::Color::Green, 16, 16, this->database);
+    Player py(sf::Color::Green, 32, 32, this->database);
     Screen scr;
     Config cf;
 
